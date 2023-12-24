@@ -23,6 +23,21 @@ func main() {
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
 
+	// token, err := authService.ValidateToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyfQ.wmCsHDmiH1Q5WjoaEODpsaJ8bzzelXL366HD-L8mzYw")
+	// if err != nil {
+	// 	fmt.Println("ERROR")
+	// 	fmt.Println("ERROR")
+	// 	fmt.Println("ERROR")
+	// }
+	// if token.Valid {
+	// 	fmt.Println("VALID")
+	// 	fmt.Println("VALID")
+	// 	fmt.Println("VALID")
+	// } else {
+	// 	fmt.Println("INVALID")
+	// 	fmt.Println("INVALID")
+	// 	fmt.Println("INVALID")
+	// }
 	// fmt.Println(authService.GenerateToken(1001))
 
 	// userService.SaveAvatar(4, "images/1-profile.png")
