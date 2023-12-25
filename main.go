@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"startup/auth"
@@ -29,60 +28,12 @@ func main() {
 
 	campaignRepository := campaign.NewRepository(db)
 
-	// campaigns, err := campaignRepository.FindByUserID(1)
-
-	// fmt.Println("debug")
-	// fmt.Println("debug")
-	// fmt.Println("debug")
-	// fmt.Println(len(campaigns))
-	// for _, campaign := range campaigns {
-	// 	fmt.Println(campaign.Name)
-	// 	if len(campaign.CampaignImages) > 0 {
-	// 		println("jumlah gambar")
-	// 		println(len(campaign.CampaignImages))
-	// 		fmt.Println(campaign.CampaignImages[0].FileName)
-	// 	}
-	// }
-
 	userService := user.NewService(userRepository)
 	campaignsService := campaign.NewService(campaignRepository)
 	authService := auth.NewService()
 
-	campaigns, _ := campaignsService.FindCampaigns(50)
-	fmt.Println(campaigns)
-
-	// token, err := authService.ValidateToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyfQ.wmCsHDmiH1Q5WjoaEODpsaJ8bzzelXL366HD-L8mzYw")
-	// if err != nil {
-	// 	fmt.Println("ERROR")
-	// 	fmt.Println("ERROR")
-	// 	fmt.Println("ERROR")
-	// }
-	// if token.Valid {
-	// 	fmt.Println("VALID")
-	// 	fmt.Println("VALID")
-	// 	fmt.Println("VALID")
-	// } else {
-	// 	fmt.Println("INVALID")
-	// 	fmt.Println("INVALID")
-	// 	fmt.Println("INVALID")
-	// }
-	// fmt.Println(authService.GenerateToken(1001))
-
-	// userService.SaveAvatar(4, "images/1-profile.png")
-
-	// input := user.LoginInput{
-	// 	Email:    "chairulsabri@gmail.com",
-	// 	Password: "rahasia",
-	// }
-	// user, err := userService.Login(input)
-	// if err != nil {
-	// 	fmt.Println("Terjadi kesalahan")
-	// 	fmt.Println(err.Error())
-	// }
-	// fmt.Println(user.Email)
-	// fmt.Println(user.Name)
-
 	userHandler := handler.NewUserHandler(userService, authService)
+	campaignHandler := handler.NewCampaignHandler(campaignsService)
 
 	router := gin.Default()
 	api := router.Group("/api/v1")
@@ -91,7 +42,7 @@ func main() {
 	api.POST("/sessions", userHandler.Login)
 	api.POST("/email_checkers", userHandler.CheckEmailAvailability)
 	api.POST("/avatars", authMiddleware(authService, userService), userHandler.UploadAvatar)
-
+	api.GET("/campaigns", campaignHandler.GetCampaigns)
 	router.Run()
 
 }
