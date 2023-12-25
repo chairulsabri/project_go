@@ -29,23 +29,27 @@ func main() {
 
 	campaignRepository := campaign.NewRepository(db)
 
-	campaigns, err := campaignRepository.FindByUserID(1)
+	// campaigns, err := campaignRepository.FindByUserID(1)
 
-	fmt.Println("debug")
-	fmt.Println("debug")
-	fmt.Println("debug")
-	fmt.Println(len(campaigns))
-	for _, campaign := range campaigns {
-		fmt.Println(campaign.Name)
-		if len(campaign.CampaignImages) > 0 {
-			println("jumlah gambar")
-			println(len(campaign.CampaignImages))
-			fmt.Println(campaign.CampaignImages[0].FileName)
-		}
-	}
+	// fmt.Println("debug")
+	// fmt.Println("debug")
+	// fmt.Println("debug")
+	// fmt.Println(len(campaigns))
+	// for _, campaign := range campaigns {
+	// 	fmt.Println(campaign.Name)
+	// 	if len(campaign.CampaignImages) > 0 {
+	// 		println("jumlah gambar")
+	// 		println(len(campaign.CampaignImages))
+	// 		fmt.Println(campaign.CampaignImages[0].FileName)
+	// 	}
+	// }
 
 	userService := user.NewService(userRepository)
+	campaignsService := campaign.NewService(campaignRepository)
 	authService := auth.NewService()
+
+	campaigns, _ := campaignsService.FindCampaigns(50)
+	fmt.Println(campaigns)
 
 	// token, err := authService.ValidateToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyfQ.wmCsHDmiH1Q5WjoaEODpsaJ8bzzelXL366HD-L8mzYw")
 	// if err != nil {
